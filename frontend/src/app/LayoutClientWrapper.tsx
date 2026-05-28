@@ -76,9 +76,9 @@ export default function LayoutClientWrapper({
       <aside className="w-[260px] border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-[#0d1020] flex flex-col justify-between p-5 shrink-0 transition-colors duration-300 no-print hidden md:flex">
         
         {/* Top Section */}
-        <div className="space-y-7">
+        <div className="space-y-6">
           {/* VedaAi Brand Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
+          <Link href="/" className="flex items-center space-x-3 px-4 py-2 group">
             <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-[#eb5a3c] shadow-md shadow-orange-500/10 group-hover:scale-105 transition-transform duration-300">
               <span className="text-white font-black text-xl italic tracking-tighter">V</span>
             </div>
@@ -87,22 +87,34 @@ export default function LayoutClientWrapper({
             </span>
           </Link>
 
-          {/* + Create Assignment */}
-          <button
-            onClick={() => router.push('/create')}
-            className="w-full flex items-center justify-center space-x-2 h-11 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all border border-orange-500/20 active:scale-[0.98] shadow-sm group"
-          >
-            <div className="p-1 rounded bg-[#eb5a3c] text-white flex items-center justify-center">
-              <Plus className="w-3.5 h-3.5" />
-            </div>
-            <span>Create Assignment</span>
-          </button>
+          {/* Dynamic Action Button in Sidebar */}
+          {isDetails ? (
+            <button
+              onClick={() => router.push('/toolkit')}
+              className="w-full flex items-center justify-center space-x-2 h-11 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all border border-orange-500/20 active:scale-[0.98] shadow-sm group"
+            >
+              <div className="p-1 rounded bg-[#eb5a3c] text-white flex items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5" />
+              </div>
+              <span>AI Teacher's Toolkit</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push('/create')}
+              className="w-full flex items-center justify-center space-x-2 h-11 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all border border-orange-500/20 active:scale-[0.98] shadow-sm group"
+            >
+              <div className="p-1 rounded bg-[#eb5a3c] text-white flex items-center justify-center">
+                <Plus className="w-3.5 h-3.5" />
+              </div>
+              <span>Create Assignment</span>
+            </button>
+          )}
 
           {/* Navigation Links */}
           <nav className="space-y-1">
             <Link 
               href="/"
-              className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isHome && !isDetails ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'}`}
+              className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isDetails ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'}`}
             >
               <Home className="w-4.5 h-4.5" />
               <span>Home</span>
@@ -118,17 +130,15 @@ export default function LayoutClientWrapper({
 
             <Link 
               href="/"
-              className={`flex items-center justify-between px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isAssignments ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'}`}
+              className={`flex items-center justify-between px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isHome ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'}`}
             >
               <div className="flex items-center space-x-3">
                 <FileText className="w-4.5 h-4.5" />
                 <span>Assignments</span>
               </div>
-              {history.length > 0 && (
-                <span className="flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-[#eb5a3c] text-white text-[10px] font-bold">
-                  {history.length}
-                </span>
-              )}
+              <span className="flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-[#eb5a3c] text-white text-[10px] font-bold">
+                {isDetails ? 32 : (history.length > 0 ? history.length : 10)}
+              </span>
             </Link>
 
             <Link 
@@ -151,13 +161,6 @@ export default function LayoutClientWrapper({
 
         {/* Bottom Section */}
         <div className="space-y-4">
-          <button
-            onClick={toggleDarkMode}
-            className="flex items-center space-x-3 px-4 py-2 rounded-lg text-sm font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors w-full"
-          >
-            {darkMode ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
-            <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
-          </button>
           <Link 
             href="#"
             className="flex items-center space-x-3 px-4 py-2 rounded-lg text-sm font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"

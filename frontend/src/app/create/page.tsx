@@ -13,7 +13,7 @@ import Badge from '../../components/ui/Badge';
 import {
   Sparkles, FileText, ArrowRight, ArrowLeft, Upload, Check, 
   Trash2, Brain, Loader2, PlayCircle, AlertCircle, HelpCircle,
-  Plus, Minus, Mic
+  Plus, Minus, Mic, UploadCloud, Calendar
 } from 'lucide-react';
 
 // Zod Validation Schema
@@ -243,14 +243,20 @@ export default function CreateAssignmentWizard() {
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in duration-300 relative pb-10">
       
       {/* Header bar */}
-      <div className="space-y-1 pb-4">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#eb5a3c]"></span>
-          <h1 className="text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">Create Assignment</h1>
+      <div className="space-y-4 pb-2">
+        <div className="space-y-1">
+          <div className="flex items-center space-x-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#eb5a3c]"></span>
+            <h1 className="text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">Create Assignment</h1>
+          </div>
+          <p className="text-xs text-slate-400 dark:text-slate-500 font-semibold">
+            Set up a new assignment for your students
+          </p>
         </div>
-        <p className="text-xs text-slate-400 dark:text-slate-500 font-semibold">
-          Set up a new assignment for your students
-        </p>
+        {/* Horizontal Progress Bar */}
+        <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div className="w-[35%] h-full bg-slate-500 dark:bg-slate-400 rounded-full" />
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -258,7 +264,7 @@ export default function CreateAssignmentWizard() {
         {/* ==========================================
            FIGMA IMAGE 3: Assignment Details Wizard Card
            ========================================== */}
-        <Card variant="glass" className="p-8 border border-slate-200/50 dark:border-slate-800/80 shadow-premium space-y-6">
+        <Card variant="glass" className="p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-premium space-y-6">
           
           <div className="space-y-1">
             <h3 className="text-base font-extrabold text-slate-800 dark:text-white tracking-tight">Assignment Details</h3>
@@ -273,7 +279,7 @@ export default function CreateAssignmentWizard() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 h-10 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 text-xs font-semibold focus:outline-none"
+                className="w-full px-4 h-10 rounded-full border border-slate-200/80 dark:border-slate-800 bg-[#f8fafc]/50 dark:bg-slate-900/50 text-xs font-semibold focus:outline-none"
                 {...register('title')}
               />
             </div>
@@ -283,7 +289,7 @@ export default function CreateAssignmentWizard() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 h-10 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 text-xs font-semibold focus:outline-none"
+                className="w-full px-4 h-10 rounded-full border border-slate-200/80 dark:border-slate-800 bg-[#f8fafc]/50 dark:bg-slate-900/50 text-xs font-semibold focus:outline-none"
                 {...register('subject')}
               />
             </div>
@@ -306,17 +312,17 @@ export default function CreateAssignmentWizard() {
                   accept=".pdf,.txt,.doc"
                   className="hidden"
                 />
-                <div className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 mb-3 border border-slate-100 dark:border-slate-800">
-                  <Upload className="w-5 h-5" />
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 mb-3 border border-slate-100 dark:border-slate-800 shrink-0">
+                  <UploadCloud className="w-6 h-6" />
                 </div>
-                <h4 className="text-xs font-extrabold text-slate-700 dark:text-slate-300">
+                <h4 className="text-xs font-extrabold text-slate-700 dark:text-slate-300 text-center">
                   Choose a file or drag & drop it here
                 </h4>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">JPEG, PNG, up to 10MB</p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-505 mt-1 text-center">JPEG, PNG, upto 10MB</p>
                 
                 <button 
                   type="button" 
-                  className="mt-3 px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-[10px] font-bold bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-300"
+                  className="mt-3 px-5 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 text-[10px] font-bold bg-[#f8fafc] hover:bg-slate-100 text-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-300 transition-colors shadow-sm"
                 >
                   Browse Files
                 </button>
@@ -341,7 +347,7 @@ export default function CreateAssignmentWizard() {
                 </button>
               </div>
             )}
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">Upload images of your preferred document/image</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center font-medium">Upload images of your preferred document/image</p>
           </div>
 
           {/* Due Date Field */}
@@ -349,12 +355,18 @@ export default function CreateAssignmentWizard() {
             <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500" htmlFor="dueDate">
               Due Date
             </label>
-            <input
-              id="dueDate"
-              type="date"
-              className="w-full px-4 h-10 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/10"
-              {...register('dueDate')}
-            />
+            <div className="relative flex items-center w-full">
+              <input
+                id="dueDate"
+                type="date"
+                placeholder="DD-MM-YYYY"
+                className="w-full px-4 pr-10 h-10 rounded-full border border-slate-200/80 dark:border-slate-800 bg-[#f8fafc]/50 dark:bg-slate-900/50 text-xs font-semibold text-slate-700 dark:text-slate-350 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer"
+                {...register('dueDate')}
+              />
+              <div className="absolute right-3 pointer-events-none text-slate-400 dark:text-slate-500 flex items-center justify-center">
+                <Calendar className="w-4 h-4" />
+              </div>
+            </div>
             {errors.dueDate && (
               <p className="text-xs font-semibold text-rose-500 flex items-center gap-1 mt-0.5">
                 <AlertCircle className="w-3.5 h-3.5" />
@@ -365,109 +377,95 @@ export default function CreateAssignmentWizard() {
 
           {/* Question Type Rows (Dynamic Grid) */}
           <div className="space-y-3">
-            <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Question Type
-            </label>
+            {/* Table Header */}
+            <div className="grid grid-cols-[1fr_12px_100px_100px_28px] md:grid-cols-[1fr_20px_120px_120px_36px] gap-2 md:gap-4 px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 select-none">
+              <div>Question Type</div>
+              <div></div>
+              <div className="text-center">No. of Questions</div>
+              <div className="text-center">Marks</div>
+              <div></div>
+            </div>
 
             {/* Table Rows */}
-            <div className="space-y-3.5">
+            <div className="space-y-2">
               {fields.map((field, idx) => {
                 const countVal = watchedFields.questionTypes?.[idx]?.count || 1;
                 const marksVal = watchedFields.questionTypes?.[idx]?.marks || 1;
 
                 return (
-                  <div key={field.id} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-50/40 dark:bg-slate-900/10 p-3 rounded-xl border border-slate-100 dark:border-slate-800/60">
-                    
+                  <div 
+                    key={field.id} 
+                    className="grid grid-cols-[1fr_12px_96px_96px_28px] md:grid-cols-[1fr_20px_116px_116px_36px] gap-2 md:gap-4 items-center bg-slate-50/40 dark:bg-slate-900/10 p-2 md:p-3 rounded-full border border-slate-150 dark:border-slate-800/60"
+                  >
                     {/* Type Select */}
-                    <div className="flex-1">
-                      <select
-                        className="w-full px-3.5 h-10 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-300 focus:outline-none"
-                        {...register(`questionTypes.${idx}.type` as const)}
+                    <select
+                      className="w-full px-3.5 h-10 rounded-full border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-350 focus:outline-none"
+                      {...register(`questionTypes.${idx}.type` as const)}
+                    >
+                      <option value="mcq">{QUESTION_TYPE_LABELS.mcq}</option>
+                      <option value="short">{QUESTION_TYPE_LABELS.short}</option>
+                      <option value="diagram">{QUESTION_TYPE_LABELS.diagram}</option>
+                      <option value="numerical">{QUESTION_TYPE_LABELS.numerical}</option>
+                    </select>
+
+                    {/* Multiplication Sign */}
+                    <span className="text-center text-xs font-extrabold text-slate-400 dark:text-slate-500 select-none">×</span>
+
+                    {/* No. of Questions Pill */}
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-205 dark:border-slate-800 h-10 w-[100px] md:w-[120px] rounded-full overflow-hidden shrink-0">
+                      <button type="button" onClick={() => setValue(`questionTypes.${idx}.count`, Math.max(1, countVal - 1))} className="w-7 md:w-8 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="text-xs font-extrabold text-slate-800 dark:text-white select-none">{countVal}</span>
+                      <button type="button" onClick={() => setValue(`questionTypes.${idx}.count`, countVal + 1)} className="w-7 md:w-8 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    {/* Marks Pill */}
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-205 dark:border-slate-800 h-10 w-[100px] md:w-[120px] rounded-full overflow-hidden shrink-0">
+                      <button type="button" onClick={() => setValue(`questionTypes.${idx}.marks`, Math.max(1, marksVal - 1))} className="w-7 md:w-8 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="text-xs font-extrabold text-slate-800 dark:text-white select-none">{marksVal}</span>
+                      <button type="button" onClick={() => setValue(`questionTypes.${idx}.marks`, marksVal + 1)} className="w-7 md:w-8 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+
+                    {/* Remove Button */}
+                    {fields.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => remove(idx)}
+                        className="flex items-center justify-center w-7 h-7 rounded-full text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                       >
-                        <option value="mcq">{QUESTION_TYPE_LABELS.mcq}</option>
-                        <option value="short">{QUESTION_TYPE_LABELS.short}</option>
-                        <option value="diagram">{QUESTION_TYPE_LABELS.diagram}</option>
-                        <option value="numerical">{QUESTION_TYPE_LABELS.numerical}</option>
-                      </select>
-                    </div>
-
-                    {/* Controls */}
-                    <div className="flex items-center space-x-6 justify-between sm:justify-start">
-                      {/* No. of Questions */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">No. of Questions</span>
-                        <div className="flex items-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-9 overflow-hidden">
-                          <button
-                            type="button"
-                            onClick={() => setValue(`questionTypes.${idx}.count`, Math.max(1, countVal - 1))}
-                            className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 border-r border-slate-200 dark:border-slate-800 transition-colors"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-8 text-center text-xs font-extrabold text-slate-800 dark:text-white">{countVal}</span>
-                          <button
-                            type="button"
-                            onClick={() => setValue(`questionTypes.${idx}.count`, countVal + 1)}
-                            className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 border-l border-slate-200 dark:border-slate-800 transition-colors"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Marks */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">Marks</span>
-                        <div className="flex items-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-9 overflow-hidden">
-                          <button
-                            type="button"
-                            onClick={() => setValue(`questionTypes.${idx}.marks`, Math.max(1, marksVal - 1))}
-                            className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 border-r border-slate-200 dark:border-slate-800 transition-colors"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-8 text-center text-xs font-extrabold text-slate-800 dark:text-white">{marksVal}</span>
-                          <button
-                            type="button"
-                            onClick={() => setValue(`questionTypes.${idx}.marks`, marksVal + 1)}
-                            className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 border-l border-slate-200 dark:border-slate-800 transition-colors"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Remove Row */}
-                      {fields.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => remove(idx)}
-                          className="p-2 hover:text-rose-500 text-slate-400 transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
-
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <div className="w-7 h-7" />
+                    )}
                   </div>
                 );
               })}
             </div>
 
             {/* Add row + Summary block */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3">
+            <div className="flex flex-row items-center justify-between gap-4 pt-3">
               {/* + Add Question Type button */}
               <button
                 type="button"
                 onClick={() => append({ type: 'mcq', count: 5, marks: 1 })}
-                className="flex items-center space-x-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/50 dark:border-slate-800"
+                className="flex items-center space-x-2 text-xs font-extrabold text-slate-800 dark:text-slate-200 hover:text-orange-600 transition-colors py-2"
               >
-                <Plus className="w-4.5 h-4.5 text-[#eb5a3c]" />
+                <span className="w-5 h-5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-bold shadow-sm">
+                  <Plus className="w-3.5 h-3.5" />
+                </span>
                 <span>Add Question Type</span>
               </button>
 
               {/* Summary Counts */}
-              <div className="text-right text-xs font-bold text-slate-500 dark:text-slate-400 space-y-1">
+              <div className="text-right text-xs font-bold text-slate-550 dark:text-slate-400 space-y-1 select-none pr-7">
                 <p>Total Questions : <span className="text-slate-850 dark:text-white font-extrabold text-sm">{totalQuestions}</span></p>
                 <p>Total Marks : <span className="text-slate-850 dark:text-white font-extrabold text-sm">{totalMarks}</span></p>
               </div>
@@ -485,15 +483,15 @@ export default function CreateAssignmentWizard() {
                 id="instructions"
                 rows={3}
                 placeholder="e.g. Generate a question paper for 3 hour exam duration..."
-                className="w-full p-4 pr-12 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 text-xs font-bold text-slate-700 dark:text-slate-350 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 transition-colors"
+                className="w-full p-4 pr-12 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-[#f8fafc]/50 dark:bg-slate-900/50 text-xs font-bold text-slate-700 dark:text-slate-350 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 transition-colors"
                 {...register('additionalInstructions')}
               />
               {/* Microphone icon */}
               <button
                 type="button"
-                className="absolute bottom-4 right-4 p-1.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 hover:text-indigo-500 transition-colors"
+                className="absolute bottom-3.5 right-3.5 w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-slate-400 hover:text-indigo-500 transition-colors flex items-center justify-center shadow-sm"
               >
-                <Mic className="w-3.5 h-3.5" />
+                <Mic style={{ width: '16.36px', height: '16.36px' }} />
               </button>
             </div>
           </div>

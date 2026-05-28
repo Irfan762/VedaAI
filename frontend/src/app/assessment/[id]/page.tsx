@@ -155,7 +155,7 @@ export default function AssessmentDetailsPage() {
             <span>AI Teacher's Assistant</span>
           </p>
           <p className="text-sm font-medium text-slate-200 leading-normal">
-            Certainly, Lakshyat! Here are customized Question Paper for your CBSE Grade {paper.title.includes('8') ? '8' : '5'} {paper.subject} classes on the NCERT chapters:
+            Certainly, Lakshya! Here are customized Question Paper for your CBSE Grade {paper.title.includes('8') ? '8' : '5'} {paper.subject} classes on the NCERT chapters:
           </p>
         </div>
         <button
@@ -233,18 +233,18 @@ export default function AssessmentDetailsPage() {
         </p>
 
         {/* Student Fill-in Blanks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-slate-700 dark:text-slate-300 pb-8 border-b border-slate-300 dark:border-slate-850">
+        <div className="space-y-3 text-xs font-bold text-slate-700 dark:text-slate-300 pb-6 border-b border-slate-200 dark:border-slate-800 max-w-[280px]">
           <div className="flex items-end">
-            <span>Name:</span>
-            <div className="flex-1 border-b border-slate-300 dark:border-slate-700 ml-2 h-4"></div>
+            <span className="shrink-0">Name:</span>
+            <div className="flex-1 border-b border-slate-400 dark:border-slate-600 ml-2 h-4 min-w-[200px]"></div>
           </div>
           <div className="flex items-end">
-            <span>Roll Number:</span>
-            <div className="flex-1 border-b border-slate-300 dark:border-slate-700 ml-2 h-4"></div>
+            <span className="shrink-0">Roll Number:</span>
+            <div className="flex-1 border-b border-slate-400 dark:border-slate-600 ml-2 h-4 min-w-[200px]"></div>
           </div>
-          <div className="flex items-end md:col-span-2">
-            <span>Class: {paper.title.includes('8') ? '8th' : '5th'} Section:</span>
-            <div className="flex-1 border-b border-slate-300 dark:border-slate-700 ml-2 h-4"></div>
+          <div className="flex items-end">
+            <span className="shrink-0">Class: {paper.title.includes('8') ? '8th' : '5th'} Section:</span>
+            <div className="flex-1 border-b border-slate-400 dark:border-slate-600 ml-2 h-4 min-w-[120px]"></div>
           </div>
         </div>
 
@@ -277,18 +277,16 @@ export default function AssessmentDetailsPage() {
                     <div key={qIdx} className="text-xs space-y-2 print-question-card">
                       
                       {/* Question Line matching Figma formatting exactly */}
-                      <div className="flex items-start justify-between gap-4">
-                        <p className="font-semibold leading-relaxed text-slate-800 dark:text-slate-200 flex-1">
-                          <span className="font-black mr-1">{qIdx + 1}.</span>
-                          <span className="font-bold text-slate-500 dark:text-slate-400 mr-1.5">
-                            {getDifficultyLabel(q.difficulty)}
-                          </span>
-                          {q.question}
-                        </p>
-                        <span className="font-bold text-slate-500 dark:text-slate-400 shrink-0">
+                      <p className="font-semibold leading-relaxed text-slate-800 dark:text-slate-200">
+                        <span className="font-black mr-1">{qIdx + 1}.</span>
+                        <span className="font-bold text-slate-505 dark:text-slate-400 mr-1.5">
+                          {getDifficultyLabel(q.difficulty)}
+                        </span>
+                        <span>{q.question}</span>
+                        <span className="font-bold text-slate-500 dark:text-slate-400 ml-1.5 whitespace-nowrap">
                           [{q.marks} Marks]
                         </span>
-                      </div>
+                      </p>
 
                       {/* Render options for MCQs */}
                       {q.options && q.options.length > 0 && (
@@ -327,12 +325,9 @@ export default function AssessmentDetailsPage() {
               
               <div className="space-y-3.5 pl-2 text-xs">
                 {paper.sections.flatMap((s: any) => s.questions).map((q: any, idx: number) => (
-                  <div key={idx} className="space-y-1 leading-normal">
-                    <p className="font-bold text-slate-700 dark:text-slate-350">
-                      <span className="font-black mr-1">{idx + 1}.</span>
-                      {q.question}
-                    </p>
-                    <p className="font-semibold text-[#eb5a3c] dark:text-orange-400 bg-slate-50 dark:bg-slate-950/40 p-2 rounded-lg border border-slate-100 dark:border-slate-850">
+                  <div key={idx} className="leading-relaxed text-slate-800 dark:text-slate-200">
+                    <p className="font-semibold">
+                      <span className="font-black mr-2">{idx + 1}.</span>
                       {q.correctAnswer ? q.correctAnswer : `Standard answer evaluation model. Criteria: formula accuracy, critical context definitions, and grammar structure.`}
                     </p>
                   </div>

@@ -8,7 +8,7 @@ import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import { 
   Plus, FileText, Calendar, Loader2, Sparkles, 
-  Trash2, AlertCircle, ChevronRight, Inbox, Search, Filter
+  Trash2, AlertCircle, ChevronRight, Inbox, Search, Filter, MoreVertical
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -17,6 +17,32 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
+
+  // Close dropdown on outside clicks
+  useEffect(() => {
+    const handleOutsideClick = () => {
+      setActiveMenuId(null);
+    };
+    window.addEventListener('click', handleOutsideClick);
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return 'N/A';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    } catch {
+      return 'N/A';
+    }
+  };
 
   useEffect(() => {
     fetchAssessments();
@@ -104,17 +130,25 @@ export default function DashboardPage() {
         /* ==========================================
            FIGMA IMAGE 1: Zero State Dashboard (Empty)
            ========================================== */
-        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-white dark:bg-[#0d1020]/20 rounded-2xl border border-slate-200/50 dark:border-slate-800/80 shadow-premium max-w-4xl mx-auto">
-          <div className="relative w-44 h-44 mb-6 flex items-center justify-center">
-            {/* Custom Empty Graphic */}
-            <div className="absolute inset-0 bg-indigo-50/30 dark:bg-indigo-950/10 rounded-full blur-2xl"></div>
-            <div className="w-20 h-20 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-400 shadow-sm relative">
-              <FileText className="w-10 h-10" />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-lg border-2 border-white dark:border-[#0d1020]">
-                ×
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-white dark:bg-[#0d1020]/20 rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-premium max-w-4xl mx-auto">
+          {/* Custom SVG Empty State Illustration */}
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6 select-none pointer-events-none">
+            <circle cx="90" cy="90" r="60" fill="#F1F5F9" className="dark:fill-slate-900/50" />
+            <path d="M45 75C35 70 30 85 45 80C50 78 52 82 48 88" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+            <rect x="75" y="45" width="46" height="60" rx="6" fill="white" stroke="#E2E8F0" strokeWidth="2" className="dark:fill-slate-800 dark:stroke-slate-700" />
+            <line x1="83" y1="57" x2="101" y2="57" stroke="#0F172A" strokeWidth="3" strokeLinecap="round" className="dark:stroke-white" />
+            <line x1="83" y1="67" x2="113" y2="67" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+            <line x1="83" y1="77" x2="113" y2="77" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+            <line x1="83" y1="87" x2="103" y2="87" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+            <rect x="127" y="53" width="22" height="14" rx="3" fill="#E2E8F0" className="dark:fill-slate-850" />
+            <circle cx="132" cy="60" r="1.5" fill="#94A3B8" />
+            <line x1="137" y1="60" x2="145" y2="60" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+            <line x1="112" y1="105" x2="132" y2="125" stroke="#CBD5E1" strokeWidth="8" strokeLinecap="round" className="dark:stroke-slate-800" />
+            <line x1="114" y1="107" x2="130" y2="123" stroke="#94A3B8" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="100" cy="95" r="18" fill="white" stroke="#CBD5E1" strokeWidth="2" className="dark:fill-slate-800 dark:stroke-slate-700" />
+            <circle cx="100" cy="95" r="13" fill="#EF4444" />
+            <path d="M96 91L104 99M104 91L96 99" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
 
           <h3 className="text-base font-extrabold text-slate-800 dark:text-white tracking-tight mb-2">
             No assignments yet
@@ -137,19 +171,19 @@ export default function DashboardPage() {
            ========================================== */
         <div className="space-y-6">
           {/* Filters Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-white dark:bg-slate-900/40 p-3 rounded-xl border border-slate-200/50 dark:border-slate-800/80">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-white dark:bg-slate-900/40 p-3 rounded-full border border-slate-200/50 dark:border-slate-800/80">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search Assignment..."
+                placeholder="Search Assignment"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 h-9 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 text-xs font-semibold focus:outline-none"
+                className="w-full pl-9 pr-4 h-9 rounded-full border border-slate-200/80 dark:border-slate-800 bg-[#f8fafc]/50 dark:bg-slate-900/50 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-slate-350 dark:focus:ring-slate-700"
               />
             </div>
             <div className="flex items-center gap-2.5">
-              <button className="flex items-center gap-1.5 px-3 h-9 rounded-lg border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+              <button className="flex items-center gap-1.5 px-4 h-9 rounded-full border border-slate-200 dark:border-slate-800 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
                 <Filter className="w-3.5 h-3.5" />
                 <span>Filter By</span>
               </button>
@@ -163,43 +197,72 @@ export default function DashboardPage() {
                 key={assessment._id}
                 variant="glass"
                 onClick={() => router.push(`/assessment/${assessment._id}`)}
-                className="p-6 border border-slate-200/50 dark:border-slate-800/80 shadow-premium hover:border-slate-350 dark:hover:border-slate-700/80 transition-all duration-300 group cursor-pointer flex flex-col justify-between min-h-[160px] relative"
+                className="p-6 rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-premium hover:border-slate-350 dark:hover:border-slate-700/80 transition-all duration-300 group cursor-pointer flex flex-col justify-between min-h-[160px] relative"
               >
                 
                 {/* Top header */}
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start justify-between gap-4 relative">
                   <div className="space-y-1">
-                    <h3 className="text-sm font-extrabold text-slate-800 dark:text-white tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <h3 className="text-sm font-extrabold text-slate-800 dark:text-white tracking-tight group-hover:text-[#eb5a3c] dark:group-hover:text-orange-400 transition-colors">
                       {assessment.title}
                     </h3>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
+                    <p className="text-[10px] text-slate-400 dark:text-slate-505 font-bold uppercase tracking-wider">
                       {assessment.subject}
                     </p>
                   </div>
 
-                  <div className="flex items-center space-x-1">
+                  <div className="relative">
                     <button
-                      onClick={(e) => handleDelete(e, assessment._id)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors"
-                      title="Delete assignment"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMenuId(activeMenuId === assessment._id ? null : assessment._id);
+                      }}
+                      className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <MoreVertical className="w-4 h-4" />
                     </button>
+                    
+                    {/* Dropdown Menu */}
+                    {activeMenuId === assessment._id && (
+                      <div 
+                        className="absolute right-0 top-8 z-20 w-36 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-premium p-1 text-[11px] font-bold"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          onClick={() => {
+                            setActiveMenuId(null);
+                            router.push(`/assessment/${assessment._id}`);
+                          }}
+                          className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
+                        >
+                          View Assignment
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            setActiveMenuId(null);
+                            handleDelete(e, assessment._id);
+                          }}
+                          className="w-full text-left px-3 py-2 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/20 text-rose-600 dark:text-rose-400 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Body Meta Info */}
-                <div className="flex items-center justify-between pt-6 border-t border-slate-100/50 dark:border-slate-850/50 mt-4 text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                <div className="flex items-center justify-between pt-6 border-t border-slate-100/50 dark:border-slate-850/50 mt-4 text-[10px] font-bold text-slate-400 dark:text-slate-505">
                   <div className="flex items-center gap-1">
                     <span>Assigned on :</span>
                     <span className="text-slate-700 dark:text-slate-300">
-                      {assessment.createdAt ? new Date(assessment.createdAt).toLocaleDateString() : 'N/A'}
+                      {formatDate(assessment.createdAt)}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
                     <span>Due :</span>
                     <span className="text-slate-700 dark:text-slate-300">
-                      {assessment.dueDate ? new Date(assessment.dueDate).toLocaleDateString() : 'N/A'}
+                      {formatDate(assessment.dueDate)}
                     </span>
                   </div>
                 </div>
