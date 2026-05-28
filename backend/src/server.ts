@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import { initRedis } from './config/redis';
 import assessmentRouter from './routes/assessment';
+import { initializeSocket } from './services/socket';
+import { initializeWorker } from './workers/assessmentWorker';
 
 dotenv.config();
 
@@ -26,14 +28,10 @@ connectDB();
 initRedis();
 
 const httpServer = http.createServer(app);
-const io = new SocketIOServer(httpServer, {
-  cors: { origin: process.env.CLIENT_URL, methods: ['GET', 'POST'] },
-});
+initializeSocket(httpServer);
 
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-  // You can add custom events here later
-});
+// Start the worker to process queue jobs
+initializeWorker();
 
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
