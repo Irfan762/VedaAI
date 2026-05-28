@@ -43,7 +43,7 @@ export default function AssessmentDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
     const res = await fetch(`${apiBase}/api/assessments/${assessmentId}`);
       if (!res.ok) {
         throw new Error('Assessment not found or server offline.');
@@ -64,7 +64,7 @@ export default function AssessmentDetailsPage() {
     setRegenStep('Submitting task...');
 
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
     const res = await fetch(`${apiBase}/api/assessments/${assessmentId}/regenerate`, {
         method: 'POST'
       });
@@ -74,7 +74,7 @@ export default function AssessmentDetailsPage() {
       }
 
       // Socket progress
-      const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000';
+      const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || apiBase;
       const socket = io(socketUrl);
       socketRef.current = socket;
 

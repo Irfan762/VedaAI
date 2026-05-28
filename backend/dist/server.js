@@ -14,7 +14,7 @@ const socket_1 = require("./services/socket");
 const assessmentWorker_1 = require("./workers/assessmentWorker");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ origin: process.env.CLIENT_URL }));
+app.use((0, cors_1.default)({ origin: '*' }));
 app.use(express_1.default.json());
 app.use('/api/assessments', assessment_1.default);
 app.get('/api/health', (req, res) => {

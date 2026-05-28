@@ -51,7 +51,8 @@ export default function DashboardPage() {
   const fetchAssessments = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/assessments');
+      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/assessments`);
       if (res.ok) {
         const data = await res.json();
         setHistory(data.assessments);
@@ -72,7 +73,8 @@ export default function DashboardPage() {
     if (!confirm('Are you sure you want to delete this assignment?')) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/assessments/${id}`, {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/assessments/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
