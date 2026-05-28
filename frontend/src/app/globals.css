@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Premium Harmonious Light Palette */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --primary: 250 89% 65%; /* Sleek Indigo-Purple */
+    --primary-hover: 250 89% 58%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+
+    --accent: 262 80% 50%;
+    --accent-foreground: 210 40% 98%;
+
+    --muted: 215.4 16.3% 46.9%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --border: 214.3 31.8% 91.4%;
+  }
+
+  .dark {
+    /* Deep Rich HSL Dark Space Theme */
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+
+    --card: 224 71% 7%;
+    --card-foreground: 210 40% 98%;
+
+    --primary: 250 89% 65%;
+    --primary-hover: 250 89% 72%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 263.4 70% 50.4%;
+    --accent-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --border: 217.2 32.6% 17.5%;
+  }
+}
+
+@layer utilities {
+  /* Dynamic visual mesh layout */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .dark .glass-card {
+    background: rgba(13, 17, 28, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .mesh-bg {
+    background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 45%);
+  }
+
+  .dark .mesh-bg {
+    background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.07) 0%, transparent 45%);
+  }
+}
+
+/* Mobile drawer slide-in animation */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fade-in utility */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out forwards;
+}
+
+
+/* Base style resets */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+}
+
+/* ==========================================
+   flawless Professional Print Layout Styles
+   ========================================== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    padding: 0 !important;
+    margin: 1.5cm !important;
+  }
+
+  /* Hide headers, interactive dashboards, navigation, buttons, toast popups */
+  header, 
+  footer, 
+  nav, 
+  button, 
+  .no-print, 
+  .toast-container,
+  .back-btn,
+  .action-bar,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  /* Make containers borders and fonts fully print compliant */
+  .print-paper {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Section layouts formatting */
+  .print-section-header {
+    border-bottom: 2px solid black !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 1.5rem !important;
+    page-break-after: avoid !important;
+  }
+
+  .print-question-card {
+    page-break-inside: avoid !important;
+    border: none !important;
+    border-bottom: 1px dashed #ccc !important;
+    padding-bottom: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    background: transparent !important;
+  }
+
+  .print-badge {
+    border: 1px solid black !important;
+    color: black !important;
+    background: transparent !important;
+    font-size: 9pt !important;
+    padding: 1px 6px !important;
+  }
+
+  /* Page breaks optimization */
+  h1, h2, h3, h4 {
+    page-break-after: avoid !important;
+  }
+
+  .page-break {
+    page-break-before: always !important;
+  }
+}
