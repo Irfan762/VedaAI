@@ -19,9 +19,14 @@ app.get('/api/health', (req, res) => {
   console.log('API health check hit');
   res.json({ status: 'ok' });
 });
-// Initialize DB and Redis
-app.get('/goal', (req, res) => {
-  console.log('Legacy goal check hit');
+
+// Root endpoint for browser visits
+app.get('/', (req, res) => {
+  res.json({ message: 'VedaAI Backend is running!' });
+});
+
+// Legacy health endpoint
+app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 connectDB();
