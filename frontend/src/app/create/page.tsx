@@ -167,7 +167,7 @@ export default function CreateAssignmentWizard() {
       currentStep: 'Establishing websocket connection...'
     });
 
-    const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
+    const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/?api\/?$/, '').replace(/\/+$/, '');
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || apiBase;
     const socket = io(socketUrl);
     socketRef.current = socket;
@@ -205,7 +205,7 @@ export default function CreateAssignmentWizard() {
     const typesMapped = data.questionTypes.map(t => t.type);
 
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') || 'http://localhost:5000';
+      const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/?api\/?$/, '').replace(/\/+$/, '');
       const response = await fetch(`${apiBase}/api/assessments`, {
         method: 'POST',
         headers: {
