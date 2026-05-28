@@ -18,6 +18,10 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 // Initialize DB and Redis
+app.get('/goal', (req, res) => {
+  console.log('Legacy goal check hit');
+  res.json({ status: 'ok' });
+});
 connectDB();
 initRedis();
 
