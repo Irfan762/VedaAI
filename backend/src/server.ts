@@ -13,7 +13,10 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 app.use('/api/assessments', assessmentRouter);
-
+app.get('/health', (req, res) => {
+  console.log('Health check hit');
+  res.json({ status: 'ok' });
+});
 // Initialize DB and Redis
 connectDB();
 initRedis();

@@ -204,7 +204,8 @@ export default function CreateAssignmentWizard() {
     const typesMapped = data.questionTypes.map(t => t.type);
 
     try {
-      const response = await fetch('http://localhost:5000/api/assessments', {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiBase}/api/assessments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

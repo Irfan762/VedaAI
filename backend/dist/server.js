@@ -16,6 +16,9 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: process.env.CLIENT_URL }));
 app.use(express_1.default.json());
 app.use('/api/assessments', assessment_1.default);
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
+});
 // Initialize DB and Redis
 (0, db_1.default)();
 (0, redis_1.initRedis)();

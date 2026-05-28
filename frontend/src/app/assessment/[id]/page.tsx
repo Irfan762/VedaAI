@@ -43,7 +43,8 @@ export default function AssessmentDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:5000/api/assessments/${assessmentId}`);
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const res = await fetch(`${apiBase}/api/assessments/${assessmentId}`);
       if (!res.ok) {
         throw new Error('Assessment not found or server offline.');
       }
@@ -63,7 +64,8 @@ export default function AssessmentDetailsPage() {
     setRegenStep('Submitting task...');
 
     try {
-      const res = await fetch(`http://localhost:5000/api/assessments/${assessmentId}/regenerate`, {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const res = await fetch(`${apiBase}/api/assessments/${assessmentId}/regenerate`, {
         method: 'POST'
       });
 
