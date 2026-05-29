@@ -104,7 +104,9 @@ ${params.fileText ? `- Reference Source Text to create questions from:\n${params
 
       if (response.ok) {
         const json = await response.json();
-        const text = json.candidates[0].content.parts[0].text;
+        let text = json.candidates[0].content.parts[0].text;
+        // Strip markdown backticks if Gemini decides to include them
+        text = text.replace(/^```json/mi, '').replace(/```$/m, '').trim();
         return JSON.parse(text);
       } else {
         const errText = await response.text();
